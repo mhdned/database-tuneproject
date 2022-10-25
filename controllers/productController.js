@@ -54,9 +54,11 @@ exports.singleProduct = asyncHandler (async (req,res,next) => {
 
 exports.buyProduct = asyncHandler(async(req,res,next) => {
     try {
-        if (!req.body.wallet) {
-            return res.send("ok");
-        }
+        return res.json({
+            data : req.body,
+            x : req.prod,
+            y : req.uniqueKey,
+        });
     } catch (error) {
         /*------<X><SERVER ERROR>------*/
         console.log(error);

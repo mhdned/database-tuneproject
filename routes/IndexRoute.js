@@ -17,4 +17,7 @@ router.use("/file", fileRoute);
 const productRoute = require("./user/ProductRoute");
 router.use("/product", productRoute);
 
+const ticketRoute = require("./user/TicketRoute");
+router.use("/ticket", ticketRoute);
+
 module.exports = router;

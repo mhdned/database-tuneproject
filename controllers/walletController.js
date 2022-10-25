@@ -30,24 +30,24 @@ exports.findWallet = asyncHandler(async (req,res,next)=>{
 
 exports.chargeWallet = asyncHandler(async (req,res,next)=>{
     try {
-        let oldWallet  = await Wallet.findOne({userId : req.params.userId});
-        if(oldWallet){
-            const wallet = await Wallet.findOneAndUpdate(
-                {userId : req.params.userId}
-                ,{amount : oldWallet.amount + req.body.amount}
-                ,{new : true})
-            .populate('userId')
-            .exec();
+        let wallet  = await Wallet.findOne({userId : req.params.userId})
+        .populate('userId')
+        .exec();
+        wallet.amount = wallet.amount + req.body.amount;
+        await wallet.save();
+        if(wallet){
             const payment = await Payment.create({
                 amount : req.body.amount,
                 type : 'wallet',
                 userId : req.params.userId,
                 walletId : wallet._id,
+                uniqueKey : req.uniqueKey,
             });
             return res.json({
                 walletAmount : wallet.amount,
                 user : wallet.userId.userName,
-                paymentAmount : payment.amount
+                paymentAmount : payment.amount,
+                uniqueKey : req.uniqueKey
             })
         }
     } catch (error) {
