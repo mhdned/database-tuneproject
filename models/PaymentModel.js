@@ -4,8 +4,7 @@ const mongoose = require("mongoose")
 /*------<PAYMENT SCHEMA>------*/
 const paymenSchema = new mongoose.Schema({
     amount : {
-        type : Number,
-        required : true
+        type : Number
     },
     walletId:{
         type : mongoose.Types.ObjectId,

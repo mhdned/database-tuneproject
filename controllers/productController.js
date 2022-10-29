@@ -1,6 +1,6 @@
 /*------<File CONTROLLER>------*/
 const Product = require("./../models/ProductModel");
-const Payment = require('./../models/PaymentModel');
+// const Payment = require('./../models/PaymentModel');
 const asyncHandler = require('express-async-handler');
 
 exports.createProduct = asyncHandler(async (req,res,next) => {
@@ -54,11 +54,24 @@ exports.singleProduct = asyncHandler (async (req,res,next) => {
 
 exports.buyProduct = asyncHandler(async(req,res,next) => {
     try {
-        return res.json({
-            data : req.body,
-            x : req.prod,
-            y : req.uniqueKey,
-        });
+        if (req.wallet) {
+            return res.json({
+                wallet : req.wallet.amount,
+                product : {
+                    name : req.product.title,
+                    entities : req.product.entities,
+                },
+                payment : req.paymentProduct
+            });
+        }else{
+            return res.json({
+                product : {
+                    name : req.product.title,
+                    entities : req.product.entities,
+                },
+                payment : req.paymentProduct
+            }); 
+        }
     } catch (error) {
         /*------<X><SERVER ERROR>------*/
         console.log(error);

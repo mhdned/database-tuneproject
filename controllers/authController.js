@@ -2,7 +2,6 @@
 const User = require('./../models/UserModel');
 const bcrypt = require('bcrypt')
 const {createToken} = require("./../functions/token/TokenHandler")
-
 /*------<IMPORTS USER CONTROLLER>------*/
 const asyncHandler = require('express-async-handler');
 /*------<METHOD USER CONTROLLER>------*/

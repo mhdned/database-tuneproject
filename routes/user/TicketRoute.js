@@ -2,13 +2,17 @@
 const express = require("express");
 const router = express.Router();
 
-const {createRequest,getAllTicket} = require('./../../controllers/requestController')
-
+const {createRequest,getAllTicket,getAllTicketAdmin,getTicketAdmin,answerTicketAdmin} = require('./../../controllers/requestController')
+const {createUniqueCode} = require('./../../middlewares/code/UniqueCode')
 /*------<BODY ROUTE>------*/
 router.route('/')
     .post(createRequest)
+    .get(getAllTicketAdmin)
 
-router.get('/:userId',getAllTicket);
+router.route('/:reqId')
+    .get(getTicketAdmin)
+    .put(createUniqueCode,answerTicketAdmin)
 
+router.get('/user/:userId',getAllTicket);
 /*------<EXPORT ROUTE>------*/
 module.exports = router;
