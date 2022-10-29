@@ -9,7 +9,16 @@ const asyncHandler = require("express-async-handler");
 exports.getUser = asyncHandler(async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    res.json(user)
+    if(user){
+      res.json({
+        status : "success",
+        user
+      })
+    }else{
+      res.json({
+        status : 'failed'
+      })
+    }
   } catch (error) {
     /*------<X><SERVER ERROR>------*/
     console.log(error);
@@ -44,7 +53,16 @@ exports.allUser = asyncHandler(async (req, res, next) => {
 exports.getUserWithUserName = asyncHandler(async (req, res, next) => {
   try {
     const user = await User.findOne({userName : req.params.username});
-    res.json(user)
+    if(user){
+      res.json({
+        status : "success",
+        user
+      })
+    }else{
+      res.json({
+        status : "failed",
+      })
+    }
   } catch (error) {
     /*------<X><SERVER ERROR>------*/
     console.log(error);

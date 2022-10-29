@@ -16,6 +16,11 @@ exports.registerUser = asyncHandler(async (req,res,next)=>{
                 token : userToken || 'none',
                 user : newuser
             })
+        }else{
+            return res.status(401).json({
+                status : `failed`,
+                route : req.baseUrl,
+            })
         }
     } catch (error) {
         res.status(200).json({
@@ -32,17 +37,16 @@ exports.loginUser = asyncHandler(async (req,res,next)=>{
         const newuser = await User.findOne({phoneNumber : userInfo.phoneNumber});
         if (newuser && bcrypt.compareSync(userInfo.password,newuser.password)) {
             let userToken = await createToken(newuser._id);
-            res.status(200).json({
+            return res.status(200).json({
                 status : `success`,
                 route : req.baseUrl,
                 token : userToken || 'none',
                 user : newuser
             })
-        }else{
-            res.status(401).json({
+        }else if(!newuser || !bcrypt.compareSync(userInfo.password,newuser.password)){
+            return res.status(401).json({
                 status : `failed`,
                 route : req.baseUrl,
-                user : 'کاربر وجود ندارد یا پسورد اشتباه است'
             })
         }
     } catch (error) {

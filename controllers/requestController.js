@@ -4,14 +4,18 @@ const asyncHandler = require('express-async-handler');
 
 exports.createRequest = asyncHandler (async (req,res,next) => {
     try {
+        req.body.uniqueKey = req.uniqueKey;
         const request = await Request.create(req.body);
         if (!request) {
-            return res.status(401).send("SERVER ERROR :: SOMTHING WRONG | 😥");
+            return res.status(401).json({
+                status: "failed",
+                request,
+            });
         }
         /*------<5><RESPONSE USER>------*/
         res.status(201).json({
-        status: "created",
-        request,
+            status: "success",
+            request,
         });
     } catch (error) {
         /*------<X><SERVER ERROR>------*/

@@ -7,7 +7,9 @@ exports.createProduct = asyncHandler(async (req,res,next) => {
     try {
         const product = await Product.create(req.body);
         if (!product) {
-            return res.status(401).send("SERVER ERROR :: SOMTHING WRONG | 😥");
+            return res.status(401).json({
+                status: "failed",
+            });
         }
         res.status(201).json({
             status: "created",
@@ -43,6 +45,10 @@ exports.singleProduct = asyncHandler (async (req,res,next) => {
             res.status(201).json({
                 status: "success",
                 product,
+            });
+        }else{
+            return res.json({
+                status: "failed",
             });
         }
     } catch (error) {

@@ -15,6 +15,7 @@ exports.findWallet = asyncHandler(async (req,res,next)=>{
                 userId : req.params.userId
             });
             if (newWallet) {
+                newWallet.populate('userId').exec();
                 return res.json(newWallet)
             }
         }
@@ -43,12 +44,7 @@ exports.chargeWallet = asyncHandler(async (req,res,next)=>{
                 walletId : wallet._id,
                 uniqueKey : req.uniqueKey,
             });
-            return res.json({
-                walletAmount : wallet.amount,
-                user : wallet.userId.userName,
-                paymentAmount : payment.amount,
-                uniqueKey : req.uniqueKey
-            })
+            return res.json(wallet)
         }
     } catch (error) {
         res.status(500).json({

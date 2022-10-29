@@ -6,7 +6,7 @@ const {createRequest,getAllTicket,getAllTicketAdmin,getTicketAdmin,answerTicketA
 const {createUniqueCode} = require('./../../middlewares/code/UniqueCode')
 /*------<BODY ROUTE>------*/
 router.route('/')
-    .post(createRequest)
+    .post(createUniqueCode,createRequest)
     .get(getAllTicketAdmin)
 
 router.route('/:reqId')
