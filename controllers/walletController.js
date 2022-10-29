@@ -10,13 +10,18 @@ exports.findWallet = asyncHandler(async (req,res,next)=>{
         .populate('userId')
         .exec();
         if(!wallet){
-            const newWallet = await Wallet.create({
+            let newWallet = await Wallet.create({
                 amount : 0.0,
                 userId : req.params.userId
             });
+            newWallet = await Wallet.findById(newWallet._id)
+            .populate('userId').exec();
             if (newWallet) {
-                newWallet.populate('userId').exec();
                 return res.json(newWallet)
+            }else{
+                return res.json({
+                    status : 'failed',
+                })
             }
         }
         return res.json(wallet)
